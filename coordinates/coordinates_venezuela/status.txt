@@ -1,0 +1,23 @@
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home
+Windows: home, Android: home
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: (1041, 425), Android: (742, 941)
+Log In
+Windows: (959, 494), Android: (540, 1108)
+Windows: (968, 588), Android: (562, 1335)
+Windows: (904, 505), Android: (404, 1134)
+Windows: keyboard, Android: password
+Windows: (912, 404), Android: (424, 891)
+Hacer ScreenShot
+Windows: screenshot
+Log Out
+Windows: (1147, 100), Android: (1003, 156)
+Windows: (923, 652), Android: (451, 1489)
+Windows: (839, 596), Android: (244, 1354)
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home
+Windows: home, Android: home

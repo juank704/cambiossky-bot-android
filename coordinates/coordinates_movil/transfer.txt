@@ -1,0 +1,50 @@
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home
+Windows: home, Android: home
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: (1041, 425), Android: (742, 941)
+Log In
+Windows: (959, 494), Android: (540, 1108)
+Windows: (968, 588), Android: (562, 1335)
+Windows: (904, 505), Android: (404, 1134)
+Windows: keyboard, Android: password
+Windows: (912, 404), Android: (424, 891)
+Windows: (925, 906), Android: (456, 2103)
+Windows: (884, 636), Android: (355, 1451)
+Windows: (806, 323), Android: (162, 695)
+Windows: keyboard, Android: {cedula}
+Windows: (748, 464), Android: (19, 1035)
+Windows: (947, 506), Android: (510, 1137)
+Windows: keyboard, Android: {cuenta}
+Windows: (748, 464), Android: (19, 1035)
+Windows: (1028, 697), Android: (520, 1369)
+Windows: keyboard, Android: {monto}
+Windows: (748, 464), Android: (19, 1035)
+Windows: (947, 702), Android: (510, 1610)
+Windows: keyboard, Android: {comentario}
+Windows: (748, 464), Android: (19, 1035)
+Seleccionar Banco
+Windows: (945, 417), Android: (505, 922)
+Android: destino_{destino}
+Pagar
+Windows: (899, 783), Android: (392, 1806) delay=5
+Confirmar
+Windows: (964, 511), Android: (552, 1149) delay=5
+Clave
+Windows: (876, 505), Android: (335, 1134) delay=5
+Windows: keyboard, Android: password
+Aceptar
+Windows: (906, 404), Android: (409, 891) delay=5
+Hacer ScreenShot
+Windows: screenshot
+Boton Hacia Atras
+Windows: (958, 784), Android: (537, 1808)
+Log Out
+Windows: (1147, 100), Android: (1003, 156)
+Windows: (923, 652), Android: (451, 1489)
+Windows: (839, 596), Android: (244, 1354)
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home

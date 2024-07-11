@@ -1,0 +1,18 @@
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home
+Windows: home, Android: home
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
+Windows: (1040, 151), Android: (739, 280)
+Windows: (919, 394), Android: (441, 866)
+Windows: keyboard, Android: password
+Windows: (963, 588), Android: (549, 1335) delay=5
+Windows: (1079, 450), Android: (835, 1002) delay=5
+Windows: (1094, 526), Android: (872, 1185) delay=5
+Windows: screenshot
+Windows: (1145, 98), Android: (998, 152)
+Windows: (1042, 485), Android: (744, 1086)
+Windows: close all apps, Android: close all apps
+Windows: home, Android: home
