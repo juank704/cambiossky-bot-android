@@ -1,10 +1,41 @@
 # Proyecto de Automatización ADB con Telegram Bot
 
-## Init
+## Setup Local
 ```bash
+python -m venv env
 .\env\Scripts\activate
 pip install -r requirements.txt
-python bot_telegram
+choco install scrcpy
+choco install adb
+python bot_telegram.py
+   ```
+
+## Configuración Rápida de Docker con WSL y USB
+Ejecuta los siguientes comandos en PowerShell como administrador para habilitar WSL, configurar WSL 2, instalar Ubuntu, conectar un dispositivo USB y levantar servicios con Docker:
+
+```bash
+# Habilitar WSL y la Plataforma de Máquina Virtual
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+# Configurar WSL 2 por defecto
+wsl --set-default-version 2
+
+# Instalar Ubuntu (descargar desde la Microsoft Store si no está instalado)
+
+# Instalar usbipd-win
+
+# Conectar dispositivo USB a WSL
+usbipd list
+usbipd wsl attach --busid <busid>
+usbipd attach --busid <busid> --wsl Ubuntu
+
+# Ejecutar contenedor Docker con acceso USB
+docker run --rm --network host --privileged --device=/dev/bus/usb/001/002 adb-docker
+
+# Construir y levantar servicios con Docker Compose
+docker-compose build
+docker-compose up
    ```
 
 ## Descripción

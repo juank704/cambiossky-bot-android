@@ -1,3 +1,4 @@
+import os
 import time
 import logging
 from selenium import webdriver
@@ -10,13 +11,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 logging.basicConfig(filename='process.log', level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+
+# Token del bot de Telegram
+PROFILE_CHROME_DATA = os.getenv("PROFILE_CHROME_DATA")
+
 def get_latest_sms():
     # Configuración de Selenium
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--user-data-dir=C:/Users/Juan_/AppData/Local/Google/Chrome/User Data")
+    chrome_options.add_argument(PROFILE_CHROME_DATA)
     chrome_options.add_argument("--profile-directory=Default")  # Ajusta esto si no estás usando el perfil "Default"
     # chrome_options.add_argument("--headless")  # Ejecuta el navegador en modo headless (comenta esta línea por ahora)
 

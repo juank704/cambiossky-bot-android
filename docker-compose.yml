@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  adb:
+    build:
+      context: .
+    privileged: true
+    network_mode: "host"
+    devices:
+      - "/dev/bus/usb/001/002:/dev/bus/usb/001/002"
+    environment:
+      - ADB_SERVER_SOCKET=tcp:host.docker.internal:5037
+    restart: always  # Asegura que el contenedor se reinicie si se detiene
