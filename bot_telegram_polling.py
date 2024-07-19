@@ -8,8 +8,6 @@ from telegram import Update
 from telegram.ext import ContextTypes
 import tempfile
 import shlex
-import signal
-import sys
 
 # Cargar las variables del archivo .env
 load_dotenv()
@@ -22,9 +20,6 @@ replace = "password"
 
 # Lista de bancos permitidos
 banks = ['venezuela', 'banesco', 'mercantil', 'provincial', 'bnc', 'bicentenario', 'movil']
-
-# Variable de estado para evitar el procesamiento duplicado
-is_processing = False
 
 # Función para obtener la contraseña específica del banco
 def get_password_for_bank(bank):
@@ -60,75 +55,23 @@ def read_and_replace_template(file_path, **kwargs):
 
 # Función para manejar el comando "transfer"
 async def transfer(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_transfer_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_transfer_command(update, context, message_text)
 
 # Función para manejar el comando "status"
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_status_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_status_command(update, context, message_text)
 
 # Función para manejar el comando "client"
 async def client(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_client_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_client_command(update, context, message_text)
 
 # Función para manejar el comando "save"
 async def save(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_save_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_save_command(update, context, message_text)
 
 # Función para manejar el comando "transfer"
 async def handle_transfer_command(update: Update, context: ContextTypes.DEFAULT_TYPE, message_text):
@@ -327,15 +270,7 @@ async def handle_save_command(update: Update, context: ContextTypes.DEFAULT_TYPE
     os.remove(temp_file_path)
 
 async def run_adb_script(update: Update, context: ContextTypes.DEFAULT_TYPE, bank, temp_file_path):
-    lock_file = f'{bank}.lock'
-    if os.path.exists(lock_file):
-        await update.message.reply_text(f"Ya hay un proceso en ejecución para el banco {bank}. Por favor, espera a que termine.")
-        return
-
     try:
-        with open(lock_file, 'w') as f:
-            f.write(str(os.getpid()))
-        
         subprocess.run(['python', 'adb_generator.py', bank, temp_file_path], capture_output=True, text=True)
         
         latest_screenshot = get_latest_screenshot(bank)
@@ -344,24 +279,10 @@ async def run_adb_script(update: Update, context: ContextTypes.DEFAULT_TYPE, ban
             await context.bot.send_photo(chat_id=update.message.chat_id, photo=open(resized_screenshot, 'rb'))
         else:
             await update.message.reply_text("No se encontró ninguna captura de pantalla.")
-    finally:
-        if os.path.exists(lock_file):
-            os.remove(lock_file)
-
-def remove_lock_files():
-    for bank in banks:
-        lock_file = f'{bank}.lock'
-        if os.path.exists(lock_file):
-            os.remove(lock_file)
-
-def signal_handler(sig, frame):
-    remove_lock_files()
-    sys.exit(0)
+    except Exception as e:
+        await update.message.reply_text(f"Error al ejecutar el script: {e}")
 
 def main():
-    # Eliminar archivos de bloqueo si existen al iniciar
-    remove_lock_files()
-
     # Configurar el bot de Telegram
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
 
@@ -371,9 +292,6 @@ def main():
     app.add_handler(CommandHandler("status", status))
     app.add_handler(CommandHandler("client", client))
     app.add_handler(CommandHandler("save", save))
-
-    # Manejar la señal de interrupción
-    signal.signal(signal.SIGINT, signal_handler)
 
     # Iniciar el bot
     app.run_polling()
