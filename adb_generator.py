@@ -21,9 +21,12 @@ banks = [
     'movil'
 ]
 
+# Definir el tipo de teléfono en uso
+phone_type = "SM-J810M"  # Cambia esto según el teléfono en uso
+
 # Crear las carpetas 'coordinates' y 'screenshot' con subcarpetas correspondientes
-base_coordinates_folder = 'coordinates'
-base_screenshot_folder = 'screenshot'
+base_coordinates_folder = os.path.join(phone_type, 'coordinates')
+base_screenshot_folder = os.path.join(phone_type, 'screenshot')
 os.makedirs(base_coordinates_folder, exist_ok=True)
 os.makedirs(base_screenshot_folder, exist_ok=True)
 for bank in banks:
@@ -60,11 +63,48 @@ key_downs_by_bank = {
     '0178': 25
 }
 
+# Resoluciones de pantalla de los teléfonos
+resolutions = {
+    "SM-G781B": (1080, 2400),
+    "SM-J810M": (720, 1480)
+}
+
+# Función para convertir coordenadas de una resolución a otra
+def convert_coordinates(x, y, from_phone, to_phone):
+    from_width, from_height = resolutions[from_phone]
+    to_width, to_height = resolutions[to_phone]
+    new_x = int(x * to_width / from_width)
+    new_y = int(y * to_height / from_height)
+    return new_x, new_y
+
 # Función para generar comandos ADB para presionar el botón "Recientes" y luego el botón "Cerrar todo"
 def close_all_apps_with_keyevents():
+
+    logging.info(f"Usando coordenadas de: {phone_type}")
+
+    # Define las coordenadas específicas para cada teléfono
+    coords_SM_G781B = {
+        "recent": (549, 1840),
+        # Agrega otras coordenadas específicas para este teléfono si es necesario
+    }
+
+    coords_SM_J810M = {
+        "recent": (365, 1150),  # Ajusta estas coordenadas según sea necesario
+        # Agrega otras coordenadas específicas para este teléfono si es necesario
+    }
+
+    # Selecciona las coordenadas adecuadas según el tipo de teléfono
+    if phone_type == "SM-G781B":
+        coords = coords_SM_G781B
+    elif phone_type == "SM-J810M":
+        coords = coords_SM_J810M
+    else:
+        raise ValueError("Tipo de teléfono no soportado")
+
+    # Generar los comandos ADB
     commands = [
         "adb shell input keyevent 187",  # Presionar botón "Recientes"
-        "adb shell input tap 549 1840"   # Presionar botón "Cerrar todo" (ajusta estas coordenadas si es necesario)
+        f"adb shell input tap {coords['recent'][0]} {coords['recent'][1]}"  # Presionar botón "Cerrar todo"
     ]
     return commands
 
@@ -100,6 +140,7 @@ def process_line(line, bank):
     escape_pattern = re.compile(r"Android: escape")
     sms_pattern = re.compile(r"Windows: sms")
     destino_pattern = re.compile(r"Android: destino_(\d{4})")
+    sm_j810m_pattern = re.compile(r"SM-J810M")
 
     # Detectar y extraer el parámetro delay si está presente
     delay_match = delay_pattern.search(line)
@@ -109,7 +150,7 @@ def process_line(line, bank):
     if windows_screenshot_pattern.search(line):
         # Instrucción para tomar una captura de pantalla en Windows con nombre específico y timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        screenshot_filename = f'screenshot/screenshot_{bank}/{bank}_{timestamp}.png'
+        screenshot_filename = os.path.join(phone_type, f'screenshot/screenshot_{bank}/{bank}_{timestamp}.png')
         logging.info(screenshot_filename)
         adb_commands.append((f"adb exec-out screencap -p > {screenshot_filename}", delay))
     
@@ -129,17 +170,25 @@ def process_line(line, bank):
         # Instrucción de clic
         match = click_pattern.search(line)
         if match:
-            x, y = match.groups()
-            adb_commands.append((f"adb shell input tap {x} {y}", delay))
+            x, y = map(int, match.groups())
+            if sm_j810m_pattern.search(line):
+                # Coordenadas específicas para SM-J810M
+                adb_commands.append((f"adb shell input tap {x} {y}", delay))
+            else:
+                # Convertir coordenadas
+                new_x, new_y = convert_coordinates(x, y, "SM-G781B", phone_type)
+                adb_commands.append((f"adb shell input tap {new_x} {new_y}", delay))
     
     elif "Arrow Key Right" in line:
         # Instrucción de deslizamiento a la derecha
-        x1, y1, x2, y2 = 100, 1170, 1000, 1170
+        x1, y1 = convert_coordinates(100, 1170, "SM-G781B", phone_type)
+        x2, y2 = convert_coordinates(1000, 1170, "SM-G781B", phone_type)
         adb_commands.append((f"adb shell input swipe {x1} {y1} {x2} {y2}", delay))
     
     elif "Arrow Key Left" in line:
         # Instrucción de deslizamiento a la izquierda
-        x1, y1, x2, y2 = 1000, 1170, 100, 1170
+        x1, y1 = convert_coordinates(1000, 1170, "SM-G781B", phone_type)
+        x2, y2 = convert_coordinates(100, 1170, "SM-G781B", phone_type)
         adb_commands.append((f"adb shell input swipe {x1} {y1} {x2} {y2}", delay))
     
     elif "Windows: keyboard, Android:" in line:

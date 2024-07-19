@@ -1,16 +1,30 @@
 from pynput import mouse, keyboard
-import tkinter as tk
 import sys
 import os
+import pygetwindow as gw
 
-# Configuración de la ventana del ADB en Windows
-adb_window_position = (740, 35)  # (x, y) posición de la esquina superior izquierda de la ventana del ADB
-adb_window_size = (438, 969)  # (ancho, alto) de la ventana del ADB
+# Configuración del tipo de teléfono en uso
+phone_type = "SM-J810M"  # Cambia esto según el teléfono en uso
 
 # Configuración de la resolución del dispositivo Android
-android_resolution = (1080, 2340)  # Resolución de la pantalla del dispositivo Android
+android_resolution = (720, 1480)  # Resolución de la pantalla del dispositivo Android SM-J810M
 
-# Variables para controlar el estado de escritura y clicks
+# Coordenadas de la ventana del ADB
+adb_window_top_left = (728, -1044)   # Esquina superior izquierda
+adb_window_top_right = (1201, -1041)  # Esquina superior derecha
+adb_window_bottom_left = (730, -68)  # Esquina inferior izquierda
+adb_window_bottom_right = (1201, -68) # Esquina inferior derecha
+
+# Calcular el tamaño de la ventana del ADB
+adb_window_width = adb_window_top_right[0] - adb_window_top_left[0]
+adb_window_height = adb_window_bottom_left[1] - adb_window_top_left[1]
+adb_window_position = adb_window_top_left
+adb_window_size = (adb_window_width, adb_window_height)
+
+print(f"Posición: {adb_window_position}")
+print(f"Tamaño: {adb_window_size}")
+
+# Variables para controlar el estado de escritura y clics
 typing = False
 click_detected = False
 typed_text = ""
@@ -36,7 +50,7 @@ def on_click(x, y, button, pressed):
     global typing, click_detected, typed_text
     if pressed:
         bank = 'movil'  # Actualiza esto según la subcarpeta que estés utilizando
-        coordinates_file_path = f'coordinates/coordinates_{bank}/click_coordinates.txt'
+        coordinates_file_path = f'{phone_type}/coordinates/coordinates_{bank}/click_coordinates.txt'
         
         # Crear la carpeta si no existe
         os.makedirs(os.path.dirname(coordinates_file_path), exist_ok=True)
@@ -57,7 +71,7 @@ def on_press(key):
     global typing, click_detected, typed_text
     try:
         bank = 'movil'  # Actualiza esto según la subcarpeta que estés utilizando
-        coordinates_file_path = f'coordinates/coordinates_{bank}/click_coordinates.txt'
+        coordinates_file_path = f'{phone_type}/coordinates/coordinates_{bank}/click_coordinates.txt'
 
         if key == keyboard.Key.left:
             print("Windows: Arrow Key Left")

@@ -8,8 +8,6 @@ from telegram import Update
 from telegram.ext import ContextTypes
 import tempfile
 import shlex
-import signal
-import sys
 
 # Cargar las variables del archivo .env
 load_dotenv()
@@ -23,8 +21,8 @@ replace = "password"
 # Lista de bancos permitidos
 banks = ['venezuela', 'banesco', 'mercantil', 'provincial', 'bnc', 'bicentenario', 'movil']
 
-# Variable de estado para evitar el procesamiento duplicado
-is_processing = False
+# Definir el tipo de teléfono en uso
+phone_type = "SM-J810M"  # Cambia esto según el teléfono en uso
 
 # Función para obtener la contraseña específica del banco
 def get_password_for_bank(bank):
@@ -36,7 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Función para encontrar la última imagen en la carpeta específica de screenshots
 def get_latest_screenshot(bank):
-    screenshot_folder = f'screenshot/screenshot_{bank}'
+    screenshot_folder = os.path.join(phone_type, f'screenshot/screenshot_{bank}')
     files = [os.path.join(screenshot_folder, f) for f in os.listdir(screenshot_folder) if os.path.isfile(os.path.join(screenshot_folder, f))]
     if not files:
         return None
@@ -45,7 +43,7 @@ def get_latest_screenshot(bank):
 
 # Función para redimensionar la imagen
 def resize_image(image_path, bank, max_size=(800, 800)):
-    screenshot_folder = f'screenshot/screenshot_{bank}'
+    screenshot_folder = os.path.join(phone_type, f'screenshot/screenshot_{bank}')
     with Image.open(image_path) as img:
         img.thumbnail(max_size)
         resized_path = os.path.join(screenshot_folder, 'resized_' + os.path.basename(image_path))
@@ -60,75 +58,23 @@ def read_and_replace_template(file_path, **kwargs):
 
 # Función para manejar el comando "transfer"
 async def transfer(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_transfer_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_transfer_command(update, context, message_text)
 
 # Función para manejar el comando "status"
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_status_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_status_command(update, context, message_text)
 
 # Función para manejar el comando "client"
 async def client(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_client_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_client_command(update, context, message_text)
 
 # Función para manejar el comando "save"
 async def save(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global is_processing
-
-    # Evitar procesamiento duplicado
-    if is_processing:
-        await update.message.reply_text("Ya estoy procesando otro comando. Por favor espera.")
-        return
-
-    try:
-        is_processing = True
-        message_text = update.message.text.lower()
-        await handle_save_command(update, context, message_text)
-    except Exception as e:
-        await update.message.reply_text(f"Error al procesar el comando: {e}")
-    finally:
-        is_processing = False
+    message_text = update.message.text.lower()
+    await handle_save_command(update, context, message_text)
 
 # Función para manejar el comando "transfer"
 async def handle_transfer_command(update: Update, context: ContextTypes.DEFAULT_TYPE, message_text):
@@ -153,21 +99,21 @@ async def handle_transfer_command(update: Update, context: ContextTypes.DEFAULT_
                 await update.message.reply_text(f"Formato incorrecto para {bank}. Por favor usa: 'transfer {bank} <cuenta> <cedula> <monto> <comentario>'.")
                 return
             cuenta, cedula, monto, comentario = parts[2], parts[3], parts[4], parts[5]
-            coordinates_file_path = f'coordinates/coordinates_{bank}/transfer.txt'
+            coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/transfer.txt')
             new_content = read_and_replace_template(coordinates_file_path, cuenta=cuenta, cedula=cedula, monto=monto, comentario=comentario)
         elif bank == 'movil':
             if len(parts) != 7:
                 await update.message.reply_text(f"Formato incorrecto para {bank}. Por favor usa: 'transfer movil <cuenta> <cedula> <destino> <monto> <comentario>'.")
                 return
             cuenta, cedula, destino, monto, comentario = parts[2], parts[3], parts[4], parts[5], parts[6]
-            coordinates_file_path = f'coordinates/coordinates_{bank}/transfer.txt'
+            coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/transfer.txt')
             new_content = read_and_replace_template(coordinates_file_path, cuenta=cuenta, cedula=cedula, destino=destino, monto=monto, comentario=comentario)
         else:
             if len(parts) != 5:
                 await update.message.reply_text(f"Formato incorrecto para {bank}. Por favor usa: 'transfer {bank} <cuenta> <monto> <comentario>'.")
                 return
             cuenta, monto, comentario = parts[2], parts[3], parts[4]
-            coordinates_file_path = f'coordinates/coordinates_{bank}/transfer.txt'
+            coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/transfer.txt')
             new_content = read_and_replace_template(coordinates_file_path, cuenta=cuenta, monto=monto, comentario=comentario)
 
     except ValueError:
@@ -211,7 +157,7 @@ async def handle_status_command(update: Update, context: ContextTypes.DEFAULT_TY
         return
 
     # Crear archivo status.txt con el contenido específico para verificar el estado usando la plantilla específica del banco
-    coordinates_file_path = f'coordinates/coordinates_{bank}/status.txt'
+    coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/status.txt')
     new_content = read_and_replace_template(coordinates_file_path)
 
     # Crear un archivo temporal con el contenido actualizado
@@ -253,7 +199,7 @@ async def handle_client_command(update: Update, context: ContextTypes.DEFAULT_TY
             return
 
         cliente, monto, comentario = parts[2], parts[3], parts[4]
-        coordinates_file_path = f'coordinates/coordinates_{bank}/client.txt'
+        coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/client.txt')
         new_content = read_and_replace_template(coordinates_file_path, cliente=cliente, monto=monto, comentario=comentario)
 
     except ValueError:
@@ -299,7 +245,7 @@ async def handle_save_command(update: Update, context: ContextTypes.DEFAULT_TYPE
             return
 
         cuenta, cedula, cliente, monto, comentario = parts[2], parts[3], parts[4], parts[5], parts[6]
-        coordinates_file_path = f'coordinates/coordinates_{bank}/save.txt'
+        coordinates_file_path = os.path.join(phone_type, f'coordinates/coordinates_{bank}/save.txt')
         new_content = read_and_replace_template(coordinates_file_path, cuenta=cuenta, cedula=cedula, cliente=cliente, monto=monto, comentario=comentario)
 
     except ValueError:
@@ -327,15 +273,7 @@ async def handle_save_command(update: Update, context: ContextTypes.DEFAULT_TYPE
     os.remove(temp_file_path)
 
 async def run_adb_script(update: Update, context: ContextTypes.DEFAULT_TYPE, bank, temp_file_path):
-    lock_file = f'{bank}.lock'
-    if os.path.exists(lock_file):
-        await update.message.reply_text(f"Ya hay un proceso en ejecución para el banco {bank}. Por favor, espera a que termine.")
-        return
-
     try:
-        with open(lock_file, 'w') as f:
-            f.write(str(os.getpid()))
-        
         subprocess.run(['python', 'adb_generator.py', bank, temp_file_path], capture_output=True, text=True)
         
         latest_screenshot = get_latest_screenshot(bank)
@@ -344,24 +282,10 @@ async def run_adb_script(update: Update, context: ContextTypes.DEFAULT_TYPE, ban
             await context.bot.send_photo(chat_id=update.message.chat_id, photo=open(resized_screenshot, 'rb'))
         else:
             await update.message.reply_text("No se encontró ninguna captura de pantalla.")
-    finally:
-        if os.path.exists(lock_file):
-            os.remove(lock_file)
-
-def remove_lock_files():
-    for bank in banks:
-        lock_file = f'{bank}.lock'
-        if os.path.exists(lock_file):
-            os.remove(lock_file)
-
-def signal_handler(sig, frame):
-    remove_lock_files()
-    sys.exit(0)
+    except Exception as e:
+        await update.message.reply_text(f"Error al ejecutar el script: {e}")
 
 def main():
-    # Eliminar archivos de bloqueo si existen al iniciar
-    remove_lock_files()
-
     # Configurar el bot de Telegram
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
 
@@ -371,9 +295,6 @@ def main():
     app.add_handler(CommandHandler("status", status))
     app.add_handler(CommandHandler("client", client))
     app.add_handler(CommandHandler("save", save))
-
-    # Manejar la señal de interrupción
-    signal.signal(signal.SIGINT, signal_handler)
 
     # Iniciar el bot
     app.run_polling()
