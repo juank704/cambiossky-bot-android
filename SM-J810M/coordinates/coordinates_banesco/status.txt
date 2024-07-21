@@ -1,24 +1,20 @@
 Windows: close all apps, Android: close all apps
 Windows: home, Android: home
 Windows: home, Android: home
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
 Log In
-Windows: (1038, 289), Android: (734, 613)
-Windows: (938, 733), Android: (488, 1685)
-Windows: (948, 683), Android: (512, 1564)
+Windows: (1038, 289), Android: (496, 620) SM-J810M
+Windows: (938, 733), Android: (347, 1103) SM-J810M
+Windows: (948, 683), Android: (278, 1023) SM-J810M
 Windows: keyboard, Android: salazar56
-Windows: (916, 454), Android: (433, 1011)
+Windows: (916, 454), Android: (339, 630) SM-J810M
 Windows: keyboard, Android: password
-Windows: (976, 505), Android: (581, 1134) delay=10
+Windows: (976, 505), Android: (389, 718) delay=10 SM-J810M
 Movements
-Windows: (964, 508), Android: (552, 1142)
+Windows: (964, 508), Android: (365, 659) SM-J810M
 Windows: screenshot
 Log Out
-Windows: (1151, 103), Android: (1013, 164)
-Windows: (1069, 584), Android: (811, 1325)
+Windows: (1151, 103), Android: (681, 86) SM-J810M
+Windows: (1069, 584), Android: (523, 824) SM-J810M
 Windows: close all apps, Android: close all apps
 Windows: home, Android: home
 Windows: home, Android: home

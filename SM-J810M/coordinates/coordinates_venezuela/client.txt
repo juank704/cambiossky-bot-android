@@ -1,44 +1,44 @@
 Windows: close all apps, Android: close all apps
 Windows: home, Android: home
 Windows: home, Android: home
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: (1041, 425), Android: (742, 941)
+Windows: (1041, 425), Android: (496, 400) delay=10 SM-J810M
 Log In
-Windows: (959, 494), Android: (540, 1108)
-Windows: (968, 588), Android: (562, 1335)
-Windows: (904, 505), Android: (404, 1134)
+Windows: (959, 494), Android: (354, 715) SM-J810M
+Windows: (968, 588), Android: (365, 838) SM-J810M
+Windows: (904, 505), Android: (339, 718) SM-J810M
 Windows: keyboard, Android: password
-Windows: (912, 404), Android: (424, 891)
+Windows: (904, 505), Android: (277, 551) SM-J810M
 Hacer Transferencia
-Windows: (845, 914), Android: (258, 2122)
-Windows: (868, 712), Android: (315, 1634)
-Windows: (1051, 189), Android: (766, 371)
-Windows: (874, 192), Android: (330, 379)
+Windows: (845, 914), Android: (173, 1355) SM-J810M
+Windows: (868, 712), Android: (316, 1056) SM-J810M
+Windows: (1051, 189), Android: (365, 206) SM-J810M
+Windows: (874, 192), Android: (194, 203) SM-J810M
+Windows: (816, 313), Android: (178, 370) SM-J810M
 Buscar Cuenta
-Windows: (1119, 312), Android: (934, 668)
-Windows: (858, 174), Android: (290, 335)
+Windows: (1119, 312), Android: (649, 389) SM-J810M
+Windows: (858, 174), Android: (146, 192) SM-J810M
 Windows: keyboard, Android: {cliente}
-Windows: (952, 291), Android: (522, 618)
+Windows: (952, 291), Android: (337, 336) SM-J810M
 Windows: keyboard, Android: {monto}
-Windows: (865, 499), Android: (308, 1120)
+Windows: (865, 499), Android: (158, 665) SM-J810M
 Windows: keyboard, Android: {comentario}
 Boton de Transferencia
-Windows: (891, 562), Android: (372, 1272)
+Windows: (891, 562), Android: (263, 768) SM-J810M
 Boton Confirmar
-Windows: (955, 515), Android: (530, 1159)
-Windows: (850, 505), Android: (271, 1134)
+Windows: (955, 515), Android: (357, 696) SM-J810M
+Por si pide clave
+Windows: (955, 515), Android: (289, 715) SM-J810M
 Windows: keyboard, Android: password
-Windows: (905, 399), Android: (406, 879)
+Windows: (955, 515), Android: (270, 545) SM-J810M
 Hacer ScreenShot
 Windows: screenshot
-Windows: (954, 778), Android: (527, 1794)
+Atras
+Windows: (954, 778), Android: (357, 1254) SM-J810M
+Windows: (954, 778), Android: (357, 1254) SM-J810M
 Log Out
-Windows: (962, 844), Android: (547, 1953)
-Windows: (1147, 100), Android: (1003, 156)
-Windows: (923, 652), Android: (451, 1489)
-Windows: (839, 596), Android: (244, 1354)
+Windows: (756, -986), Android: (689, 92) SM-J810M
+Windows: (1147, 100), Android: (344, 879) SM-J810M
+Windows: (843, -501), Android: (175, 823) SM-J810M
 Windows: close all apps, Android: close all apps
+Windows: home, Android: home
 Windows: home, Android: home

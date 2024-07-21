@@ -1,44 +1,37 @@
 Windows: close all apps, Android: close all apps
 Windows: home, Android: home
 Windows: home, Android: home
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
-Windows: Arrow Key Left, Android: Swipe from (1000, 1170) to (100, 1170)
 Log In
-Windows: (1038, 289), Android: (734, 613)
-Windows: (938, 733), Android: (488, 1685)
-Windows: (948, 683), Android: (512, 1564)
+Windows: (1038, 289), Android: (496, 620) SM-J810M
+Windows: (938, 733), Android: (347, 1103) SM-J810M
+Windows: (948, 683), Android: (278, 1023) SM-J810M
 Windows: keyboard, Android: salazar56
-Windows: (916, 454), Android: (433, 1011)
+Windows: (916, 454), Android: (339, 630) SM-J810M
 Windows: keyboard, Android: password
-Windows: (976, 505), Android: (581, 1134) delay=10
+Windows: (976, 505), Android: (389, 718) delay=10 SM-J810M
 Transfer
-Windows: (963, 908), Android: (549, 2108)
-Windows: (1032, 736), Android: (720, 1692)
-Windows: (1060, 256), Android: (789, 533)
-Windows: (904, 318), Android: (404, 683)
-Windows: (955, 472), Android: (530, 1055)
+Windows: (963, 908), Android: (356, 1342) SM-J810M
+Windows: (1032, 736), Android: (508, 1093) SM-J810M
+Poner Informacion
+Windows: (1060, 256), Android: (321, 300) SM-J810M
+Windows: (904, 318), Android: (220, 389) SM-J810M
+Datos para transferir
+Windows: (904, 318), Android: (237, 624) SM-J810M
 Windows: keyboard, Android: {cuenta}
-Android: escape delay=5
-Windows: (975, 555), Android: (579, 1255)
-Windows: (1082, 975), Android: (843, 2269)
+Windows: (975, 555), Android: (331, 735) SM-J810M
 Windows: keyboard, Android: {cedula}
-Android: escape delay=5
-Windows: (911, 635), Android: (421, 1448)
+Windows: (911, 635), Android: (269, 844) SM-J810M
 Windows: keyboard, Android: {monto}
 Android: escape delay=5
-Windows: (1080, 975), Android: (838, 2269)
-Windows: (899, 729), Android: (392, 1675)
+Windows: (899, 729), Android: (267, 965) SM-J810M
 Windows: keyboard, Android: {comentario}
 Android: escape delay=5
-Windows: (975, 803), Android: (579, 1854) delay=5
-Windows: (1072, 900), Android: (818, 2088) delay=5
-Windows: (1057, 881), Android: (781, 2042) delay=5
+Windows: (975, 803), Android: (371, 1096) delay=5 SM-J810M
+Windows: (1072, 900), Android: (525, 1325) delay=5 SM-J810M
 Windows: screenshot
 Log Out
-Windows: (1151, 103), Android: (1013, 164)
-Windows: (1069, 584), Android: (811, 1325)
+Windows: (1151, 103), Android: (680, 83) SM-J810M
+Windows: (1069, 584), Android: (517, 834) SM-J810M
 Windows: close all apps, Android: close all apps
 Windows: home, Android: home
 Windows: home, Android: home

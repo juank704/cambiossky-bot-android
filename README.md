@@ -81,9 +81,10 @@ Este proyecto permite automatizar comandos ADB a través de un bot de Telegram. 
    ```
 
 ## Uso
-1. Inicia el bot de Telegram:
+1. Inicia el bot de Telegram y webpage:
    ```bash
-   python telegram_bot.py
+   python telegram_bot_polling.py
+   uvicorn ui:app --host 0.0.0.0 --port 8000 --reload
    ```
 
 2. Envía comandos al bot de Telegram según el siguiente formato:

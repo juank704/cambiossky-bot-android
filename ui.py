@@ -100,7 +100,34 @@ async def read_root():
                 }
             </style>
             <script>
-                let ws;
+                const keyDownsByBank = {
+                    '0102': 0,
+                    '0156': 1,
+                    '0172': 2,
+                    '0114': 3,
+                    '0171': 4,
+                    '0166': 5,
+                    '0175': 6,
+                    '0128': 7,
+                    '0163': 8,
+                    '0115': 9,
+                    '0151': 10,
+                    '0173': 11,
+                    '0105': 12,
+                    '0191': 13,
+                    '0138': 14,
+                    '0137': 15,
+                    '0104': 16,
+                    '0168': 17,
+                    '0134': 18,
+                    '0177': 19,
+                    '0146': 20,
+                    '0174': 21,
+                    '0108': 22,
+                    '0157': 23,
+                    '0169': 24,
+                    '0178': 25
+                };
 
                 function updateFields() {
                     const command = document.getElementById("command").value;
@@ -110,6 +137,7 @@ async def read_root():
                     const clienteField = document.getElementById("clienteField");
                     const montoField = document.getElementById("montoField");
                     const comentarioField = document.getElementById("comentarioField");
+                    const destinoField = document.getElementById("destinoField");
                     const submitButton = document.getElementById("submitButton");
 
                     // Reset all fields
@@ -118,6 +146,7 @@ async def read_root():
                     clienteField.style.display = "none";
                     montoField.style.display = "none";
                     comentarioField.style.display = "none";
+                    destinoField.style.display = "none";
                     submitButton.disabled = false;
 
                     if (command.includes("transfer")) {
@@ -125,8 +154,9 @@ async def read_root():
                         montoField.style.display = "block";
                         comentarioField.style.display = "block";
 
-                        if (bank === "movil" || bank === "mercantil" || bank === "banesco") {
+                        if (command === "transfer movil" || bank === "movil") {
                             cedulaField.style.display = "block";
+                            destinoField.style.display = "block";
                         }
                     } else if (command.includes("status")) {
                         // No additional fields needed for status
@@ -170,7 +200,8 @@ async def read_root():
                                 formData.get("cedula"),
                                 formData.get("cliente"),
                                 formData.get("monto"),
-                                formData.get("comentario")
+                                formData.get("comentario"),
+                                formData.get("destino")
                             );
                         } else {
                             alert(result.message);
@@ -181,7 +212,7 @@ async def read_root():
                     });
                 }
 
-                function addRowToTable(command, bank, cuenta, cedula, cliente, monto, comentario) {
+                function addRowToTable(command, bank, cuenta, cedula, cliente, monto, comentario, destino) {
                     const table = document.getElementById("commandTable").getElementsByTagName('tbody')[0];
                     const newRow = table.insertRow();
 
@@ -192,10 +223,11 @@ async def read_root():
                     newRow.insertCell(4).innerText = cliente;
                     newRow.insertCell(5).innerText = monto;
                     newRow.insertCell(6).innerText = comentario;
-                    newRow.insertCell(7).innerText = "Procesando";
+                    newRow.insertCell(7).innerText = destino;
+                    newRow.insertCell(8).innerText = "Procesando";
                     
                     setTimeout(() => {
-                        newRow.cells[7].innerText = "Procesado";
+                        newRow.cells[8].innerText = "Procesado";
                     }, 300000); // 5 minutes in milliseconds
                 }
 
@@ -221,6 +253,7 @@ async def read_root():
                 <select id="command" name="command" onchange="updateFields()">
                     <option value="">Selecciona un comando</option>
                     <option value="transfer">transfer</option>
+                    <option value="transfer movil">transfer movil</option> <!-- Nueva opción -->
                     <option value="status <banco>">status <banco></option>
                     <option value="client <banco> <cliente> <monto> <comentario>">client <banco> <cliente> <monto> <comentario></option>
                     <option value="save <banco> <cuenta> <cedula> <cliente> <monto> <comentario>">save <banco> <cuenta> <cedula> <cliente> <monto> <comentario></option>
@@ -266,6 +299,39 @@ async def read_root():
                     <br><br>
                 </div>
 
+                <div id="destinoField" style="display:none;">
+                    <label for="destino">Destino:</label>
+                    <select id="destino" name="destino">
+                        <option value="0102">0102</option>
+                        <option value="0156">0156</option>
+                        <option value="0172">0172</option>
+                        <option value="0114">0114</option>
+                        <option value="0171">0171</option>
+                        <option value="0166">0166</option>
+                        <option value="0175">0175</option>
+                        <option value="0128">0128</option>
+                        <option value="0163">0163</option>
+                        <option value="0115">0115</option>
+                        <option value="0151">0151</option>
+                        <option value="0173">0173</option>
+                        <option value="0105">0105</option>
+                        <option value="0191">0191</option>
+                        <option value="0138">0138</option>
+                        <option value="0137">0137</option>
+                        <option value="0104">0104</option>
+                        <option value="0168">0168</option>
+                        <option value="0134">0134</option>
+                        <option value="0177">0177</option>
+                        <option value="0146">0146</option>
+                        <option value="0174">0174</option>
+                        <option value="0108">0108</option>
+                        <option value="0157">0157</option>
+                        <option value="0169">0169</option>
+                        <option value="0178">0178</option>
+                    </select>
+                    <br><br>
+                </div>
+
                 <button type="submit" id="submitButton">Enviar Comando</button>
             </form>
 
@@ -280,6 +346,7 @@ async def read_root():
                         <th>Cliente</th>
                         <th>Monto</th>
                         <th>Comentario</th>
+                        <th>Destino</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
@@ -301,7 +368,8 @@ async def send_command(
     cedula: str = Form(None),
     cliente: str = Form(None),
     monto: str = Form(None),
-    comentario: str = Form(None)
+    comentario: str = Form(None),
+    destino: str = Form(None)  # Nuevo campo
 ):
     try:
         if command == "client" and bank == "movil":
@@ -311,6 +379,10 @@ async def send_command(
                 command = f"transfer {bank} {cuenta} {cedula} {monto} {comentario}"
             else:
                 command = f"transfer {bank} {cuenta} {monto} {comentario}"
+        elif command == "transfer movil":
+            if not cuenta or not cedula or not monto or not destino:
+                return {"status": "error", "message": "Todos los campos son obligatorios para 'transfer movil'"}
+            command = f"transfer movil {cuenta} {cedula} {destino} {monto} {comentario}"
         elif command.startswith("status"):
             command = f"status {bank}"
         elif command.startswith("client"):
@@ -336,7 +408,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
     with mss.mss() as sct:
         while True:
-            windows = gw.getWindowsWithTitle('SM-G781B')
+            windows = gw.getWindowsWithTitle('SM-J810M')
             if windows:
                 scrcpy_window = windows[0]
                 monitor = {
